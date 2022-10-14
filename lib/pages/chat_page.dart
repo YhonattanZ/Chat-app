@@ -86,7 +86,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               onSubmitted: _handleSubmit,
               onChanged: (String text) {
                 setState(() {
-                  if (text.trim().length > 0) {
+                  if (text.trim().isNotEmpty) {
                     escribiendo = true;
                   } else {
                     escribiendo = false;

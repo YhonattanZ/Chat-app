@@ -1,8 +1,10 @@
+import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/widgets/boton_login.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/label.dart';
 import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -74,7 +76,14 @@ class __FormState extends State<_Form> {
           ButtonLogin(
             bgcolor: Colors.red.shade700,
             text: 'Inicia Sesión',
-            onPressed: () {},
+            onPressed: () {
+              print(emailCtrl.text);
+              print(passwordCtrl.text);
+
+              final authService =
+                  Provider.of<AuthService>(context, listen: false);
+              authService.login(emailCtrl.text, passwordCtrl.text);
+            },
           )
         ],
       ),
