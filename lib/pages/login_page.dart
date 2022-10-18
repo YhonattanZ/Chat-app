@@ -1,3 +1,4 @@
+import 'package:chat_app/helpers/show_alerts.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/widgets/boton_login.dart';
 import 'package:chat_app/widgets/custom_input.dart';
@@ -22,7 +23,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Logo(title: 'Mysterious Messenger'),
+                  const Logo(title: 'Mysterious Messenger'),
                   const _Form(),
                   const Labels(
                       title: '¿No tienes cuenta?',
@@ -54,38 +55,46 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 40),
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        children: <Widget>[
-          CustomInput(
-            icon: Icons.mail_outline,
-            color: Colors.red.withOpacity(0.3),
-            placeholder: 'Email',
-            keyboardType: TextInputType.emailAddress,
-            textController: emailCtrl,
-          ),
-          CustomInput(
-            icon: Icons.lock_outline,
-            color: Colors.red.withOpacity(0.3),
-            placeholder: 'Password',
-            isPassword: true,
-            textController: passwordCtrl,
-          ),
-          ButtonLogin(
-            bgcolor: Colors.red.shade700,
-            text: 'Inicia Sesión',
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passwordCtrl.text);
-
-              final authService =
-                  Provider.of<AuthService>(context, listen: false);
-              authService.login(emailCtrl.text, passwordCtrl.text);
-            },
-          )
-        ],
+    final authService = Provider.of<AuthService>(context);
+    final formKey = GlobalKey<FormState>();
+    return Form(
+      child: Container(
+        margin: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: Column(
+          children: <Widget>[
+            CustomInput(
+              icon: Icons.mail_outline,
+              color: Colors.red.withOpacity(0.3),
+              placeholder: 'Email',
+              keyboardType: TextInputType.emailAddress,
+              textController: emailCtrl,
+            ),
+            CustomInput(
+              icon: Icons.lock_outline,
+              color: Colors.red.withOpacity(0.3),
+              placeholder: 'Password',
+              isPassword: true,
+              textController: passwordCtrl,
+            ),
+            ButtonLogin(
+                bgcolor: Colors.red.shade700,
+                text: 'Inicia Sesión',
+                onPressed: () async {
+                  FocusScope.of(context).unfocus();
+                  final loginOk = await authService.login(
+                      emailCtrl.text.trim(), passwordCtrl.text.trim());
+                  if (loginOk == true) {
+                    //TODO: Navegar a la siguiente pantalla
+                    //TODO:Conectar al socket server
+                    Navigator.pushReplacementNamed(context, 'usuarios');
+                  } else {
+                    showAlert(
+                        context, 'Login fallido', 'Credenciales incorrectas');
+                  }
+                }),
+          ],
+        ),
       ),
     );
   }

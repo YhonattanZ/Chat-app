@@ -2,6 +2,8 @@
 //
 //     final loginResponse = loginResponseFromJson(jsonString);
 
+// ignore_for_file: unnecessary_null_in_if_null_operators, prefer_null_aware_operators
+
 import 'dart:convert';
 
 import 'package:chat_app/models/usuario.dart';
@@ -23,15 +25,15 @@ class LoginResponse {
   String? token;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        ok: json["ok"] == null ? null : json["ok"],
+        ok: json["ok"] ?? null,
         usuario:
             json["usuario"] == null ? null : Usuario.fromJson(json["usuario"]),
-        token: json["token"] == null ? null : json["token"],
+        token: json["token"] ?? null,
       );
 
   Map<String, dynamic> toJson() => {
-        "ok": ok == null ? null : ok,
+        "ok": ok ?? null,
         "usuario": usuario == null ? null : usuario?.toJson(),
-        "token": token == null ? null : token,
+        "token": token ?? null,
       };
 }

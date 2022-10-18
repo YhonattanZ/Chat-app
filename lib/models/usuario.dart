@@ -22,16 +22,16 @@ class Usuario {
   String? uid;
 
   factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
-        nombre: json["nombre"] == null ? null : json["nombre"],
-        email: json["email"] == null ? null : json["email"],
-        online: json["online"] == null ? null : json["online"],
-        uid: json["uid"] == null ? null : json["uid"],
+        nombre: json["nombre"],
+        email: json["email"],
+        online: json["online"],
+        uid: json["uid"],
       );
 
   Map<String, dynamic> toJson() => {
-        "nombre": nombre == null ? null : nombre,
-        "email": email == null ? null : email,
-        "online": online == null ? null : online,
-        "uid": uid == null ? null : uid,
+        "nombre": nombre,
+        "email": email,
+        "online": online,
+        "uid": uid,
       };
 }

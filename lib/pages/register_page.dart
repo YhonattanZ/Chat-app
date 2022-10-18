@@ -1,8 +1,11 @@
+import 'package:chat_app/helpers/show_alerts.dart';
+import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/widgets/boton_login.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/label.dart';
 import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -55,38 +58,50 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 40),
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        children: <Widget>[
-          CustomInput(
-            icon: Icons.person_outline,
-            color: Colors.red.withOpacity(0.3),
-            placeholder: 'Username',
-            keyboardType: TextInputType.text,
-            textController: userCtrl,
-          ),
-          CustomInput(
-            icon: Icons.mail_outline,
-            color: Colors.red.withOpacity(0.3),
-            placeholder: 'Email',
-            keyboardType: TextInputType.emailAddress,
-            textController: emailCtrl,
-          ),
-          CustomInput(
-            icon: Icons.lock_outline,
-            color: Colors.red.withOpacity(0.3),
-            placeholder: 'Password',
-            isPassword: true,
-            textController: passwordCtrl,
-          ),
-          ButtonLogin(
-            bgcolor: Colors.red.shade700,
-            text: 'Registrate ahora',
-            onPressed: () {},
-          )
-        ],
+    final authService = Provider.of<AuthService>(context);
+    return Form(
+      child: Container(
+        margin: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: Column(
+          children: <Widget>[
+            CustomInput(
+              icon: Icons.person_outline,
+              color: Colors.red.withOpacity(0.3),
+              placeholder: 'Username',
+              keyboardType: TextInputType.text,
+              textController: userCtrl,
+            ),
+            CustomInput(
+              icon: Icons.mail_outline,
+              color: Colors.red.withOpacity(0.3),
+              placeholder: 'Email',
+              keyboardType: TextInputType.emailAddress,
+              textController: emailCtrl,
+            ),
+            CustomInput(
+              icon: Icons.lock_outline,
+              color: Colors.red.withOpacity(0.3),
+              placeholder: 'Password',
+              isPassword: true,
+              textController: passwordCtrl,
+            ),
+            ButtonLogin(
+              bgcolor: Colors.red.shade700,
+              text: 'Registrate ahora',
+              onPressed: () async {
+                final registerOk = await authService.register(
+                    userCtrl.text.trim(),
+                    emailCtrl.text.trim(),
+                    passwordCtrl.text.trim());
+                if (registerOk != false) {
+                  //TODO:CONECTAR SOCKET SERVER
+                  Navigator.pushReplacementNamed(context, 'usuarios');
+                } else {}
+              },
+            )
+          ],
+        ),
       ),
     );
   }

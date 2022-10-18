@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chat_app/services/auth_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:chat_app/models/usuario.dart';
@@ -26,12 +28,19 @@ class _UsuariosPageState extends State<UsuariosPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    final usuario = authService.usuario;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Usuarios'),
+          title: Text(usuario!.nombre.toString()),
           centerTitle: true,
-          leading: Icon(
-            Icons.search_outlined,
+          leading: IconButton(
+            onPressed: () {
+              //TODO: desconectar el socket server
+              AuthService.deleteToken();
+              Navigator.pushReplacementNamed(context, 'login');
+            },
+            icon: Icon(Icons.search_outlined),
             color: Colors.white,
           ),
           elevation: 0,

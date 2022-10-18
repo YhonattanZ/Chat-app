@@ -32,7 +32,7 @@ class CustomInput extends StatelessWidget {
                   offset: const Offset(0, 7),
                   blurRadius: 5),
             ]),
-        child: TextField(
+        child: TextFormField(
           controller: textController,
           autocorrect: false,
           keyboardType: keyboardType,

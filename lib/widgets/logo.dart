@@ -21,9 +21,7 @@ class Logo extends StatelessWidget {
             SizedBox(height: size.height * 0.02),
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 20,
-              ),
+              style: TextStyle(fontSize: 20, color: Colors.red[800]),
             )
           ],
         ),
